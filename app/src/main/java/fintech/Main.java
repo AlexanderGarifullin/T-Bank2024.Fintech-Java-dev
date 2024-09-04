@@ -2,6 +2,7 @@ package fintech;
 
 import utils.JsonUtil;
 import model.City;
+import utils.LogMessages;
 import utils.XmlUtil;
 import java.io.File;
 import org.slf4j.Logger;
@@ -12,32 +13,32 @@ public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOGGER.info("App started.");
+        LOGGER.info(LogMessages.APP_STARTED);
 
         // Корректный файл.
         File correctFile = new File("jsonSample/city.json");
         // Файл с ошибками.
         File errorFile = new File("jsonSample/city-error.json");
 
-        LOGGER.info("Starting JSON parsing...");
+        LOGGER.info(LogMessages.STARTING_JSON_PARSING);
         // Парсинг JSON без ошибок
         City city = JsonUtil.parseJsonFile(correctFile, City.class);
         // Парсинг JSON с ошибкой
         City cityWithError = JsonUtil.parseJsonFile(errorFile, City.class);
-        LOGGER.info("Finishing JSON parsing...");
+        LOGGER.info(LogMessages.FINISHING_JSON_PARSING);
 
         // Корректный файл xml.
         File correctFileXml = new File("xmlResult/city.xml");
         // Файл с ошибками xml.
         File errorFileXml = new File("xmlResult/city-error.xml");
 
-        LOGGER.info("Starting XML converting...");
-        // Конверитровать city в xml и сохранить в файле.
+        LOGGER.info(LogMessages.STARTING_XML_CONVERTING);
+        // Конвертировать city в xml и сохранить в файле.
         XmlUtil.toXML(city, correctFileXml);
-        // Конверитровать cityWithError в xml и сохранить в файле.
+        // Конвертировать cityWithError в xml и сохранить в файле.
         XmlUtil.toXML(cityWithError, errorFileXml);
-        LOGGER.info("Finishing XML converting...");
+        LOGGER.info(LogMessages.FINISHING_XML_CONVERTING);
 
-        LOGGER.info("App finished.");
+        LOGGER.info(LogMessages.APP_FINISHED);
     }
 }

@@ -12,15 +12,15 @@ public class JsonUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtil.class);
 
     public static <T> T parseJsonFile(File file, Class<T> clazz) {
-        LOGGER.debug("Converting to XML file: {}", file.getAbsolutePath());
+        LOGGER.debug(LogMessages.CONVERTING_TO_JSON, file.getAbsolutePath());
         try {
             T result = objectMapper.readValue(file, clazz);
-            LOGGER.info("Successfully parsed JSON file: {}", file.getAbsolutePath());
+            LOGGER.info(LogMessages.JSON_PARSE_SUCCESS, file.getAbsolutePath());
             return result;
         } catch (JsonProcessingException e) {
-            LOGGER.error("Error parsing JSON file: {}", file.getAbsolutePath(), e);
+            LOGGER.error(LogMessages.JSON_PARSE_ERROR, file.getAbsolutePath(), e);
         } catch (IOException e) {
-            LOGGER.error("IO error reading file: {}", file.getAbsolutePath(), e);
+            LOGGER.error(LogMessages.JSON_IO_ERROR, file.getAbsolutePath(), e);
         }
         return null;
     }

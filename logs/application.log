@@ -1,9 +1,9 @@
-2024-09-04 19:29:09 INFO  fintech.Main - App started.
-2024-09-04 19:29:09 INFO  fintech.Main - Starting JSON parsing...
-2024-09-04 19:29:10 DEBUG utils.JsonUtil - Converting to XML file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city.json
-2024-09-04 19:29:10 INFO  utils.JsonUtil - Successfully parsed JSON file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city.json
-2024-09-04 19:29:10 DEBUG utils.JsonUtil - Converting to XML file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city-error.json
-2024-09-04 19:29:10 ERROR utils.JsonUtil - Error parsing JSON file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city-error.json
+2024-09-04 19:39:19 INFO  fintech.Main - App started.
+2024-09-04 19:39:19 INFO  fintech.Main - Starting JSON parsing...
+2024-09-04 19:39:20 DEBUG utils.JsonUtil - Converting to XML file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city.json
+2024-09-04 19:39:20 INFO  utils.JsonUtil - Successfully parsed JSON file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city.json
+2024-09-04 19:39:20 DEBUG utils.JsonUtil - Converting to XML file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city-error.json
+2024-09-04 19:39:20 ERROR utils.JsonUtil - Error parsing JSON file: D:\T-Bank2024.Fintech-Java-dev\jsonSample\city-error.json
 com.fasterxml.jackson.core.JsonParseException: Illegal unquoted character ((CTRL-CHAR, code 10)): has to be escaped using backslash to be included in name
  at [Source: (File); line: 3, column: 11]
 	at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:2477)
@@ -20,13 +20,12 @@ com.fasterxml.jackson.core.JsonParseException: Illegal unquoted character ((CTRL
 	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4825)
 	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3637)
 	at utils.JsonUtil.parseJsonFile(JsonUtil.java:17)
-	at fintech.Main.main(Main.java:26)
-2024-09-04 19:29:10 INFO  fintech.Main - Finishing JSON parsing...
-2024-09-04 19:29:10 INFO  fintech.Main - Starting XML converting...
-2024-09-04 19:29:10 DEBUG utils.XmlUtil - File to parse: D:\T-Bank2024.Fintech-Java-dev\xmlResult\city.xml
-2024-09-04 19:29:10 INFO  utils.XmlUtil - XML successfully saved to D:\T-Bank2024.Fintech-Java-dev\xmlResult\city.xml
-2024-09-04 19:29:10 DEBUG utils.XmlUtil - File to parse: D:\T-Bank2024.Fintech-Java-dev\xmlResult\city-error.xml
-2024-09-04 19:29:10 WARN  utils.XmlUtil - Object is null, nothing to write to XML file: D:\T-Bank2024.Fintech-Java-dev\xmlResult\city-error.xml
-2024-09-04 19:29:10 INFO  utils.XmlUtil - XML successfully saved to D:\T-Bank2024.Fintech-Java-dev\xmlResult\city-error.xml
-2024-09-04 19:29:10 INFO  fintech.Main - Finishing XML converting...
-2024-09-04 19:29:10 INFO  fintech.Main - App finished.
+	at fintech.Main.main(Main.java:27)
+2024-09-04 19:39:20 INFO  fintech.Main - Finishing JSON parsing...
+2024-09-04 19:39:20 INFO  fintech.Main - Starting XML converting...
+2024-09-04 19:39:20 DEBUG utils.XmlUtil - File to parse: D:\T-Bank2024.Fintech-Java-dev\xmlResult\city.xml
+2024-09-04 19:39:20 INFO  utils.XmlUtil - XML successfully saved to D:\T-Bank2024.Fintech-Java-dev\xmlResult\city.xml
+2024-09-04 19:39:20 DEBUG utils.XmlUtil - File to parse: D:\T-Bank2024.Fintech-Java-dev\xmlResult\city-error.xml
+2024-09-04 19:39:20 WARN  utils.XmlUtil - Object is null, nothing to write to XML file: D:\T-Bank2024.Fintech-Java-dev\xmlResult\city-error.xml
+2024-09-04 19:39:20 INFO  fintech.Main - Finishing XML converting...
+2024-09-04 19:39:20 INFO  fintech.Main - App finished.

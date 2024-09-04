@@ -11,18 +11,18 @@ public class XmlUtil {
     private static final XmlMapper xmlMapper = new XmlMapper();
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlUtil.class);
 
-
     public static <T> void toXML(T object, File file) {
-        LOGGER.debug("File to parse: {}", file.getAbsolutePath());
+        LOGGER.debug(LogMessages.PARSING_XML_FILE, file.getAbsolutePath());
         if (object == null) {
-            LOGGER.warn("Object is null, nothing to write to XML file: {}", file.getAbsolutePath());
+            LOGGER.warn(LogMessages.OBJECT_NULL, file.getAbsolutePath());
+            return;
         }
 
         try {
             xmlMapper.writeValue(file, object);
-            LOGGER.info("XML successfully saved to {}", file.getAbsolutePath());
+            LOGGER.info(LogMessages.XML_SAVE_SUCCESS, file.getAbsolutePath());
         } catch (IOException e) {
-            LOGGER.error("Error saving XML to file: {}", file.getAbsolutePath(), e);
+            LOGGER.error(LogMessages.XML_SAVE_ERROR, file.getAbsolutePath(), e);
         }
     }
 }
