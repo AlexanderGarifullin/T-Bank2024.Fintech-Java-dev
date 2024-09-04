@@ -12,6 +12,7 @@ public class JsonUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtil.class);
 
     public static <T> T parseJsonFile(File file, Class<T> clazz) {
+        LOGGER.debug("Converting to XML file: {}", file.getAbsolutePath());
         try {
             T result = objectMapper.readValue(file, clazz);
             LOGGER.info("Successfully parsed JSON file: {}", file.getAbsolutePath());

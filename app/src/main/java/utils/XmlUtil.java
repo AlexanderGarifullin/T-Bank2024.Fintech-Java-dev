@@ -13,6 +13,7 @@ public class XmlUtil {
 
 
     public static <T> void toXML(T object, File file) {
+        LOGGER.debug("File to parse: {}", file.getAbsolutePath());
         if (object == null) {
             LOGGER.warn("Object is null, nothing to write to XML file: {}", file.getAbsolutePath());
         }
