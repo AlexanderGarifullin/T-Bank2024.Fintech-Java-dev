@@ -12,6 +12,7 @@ public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        LOGGER.info("App started.");
 
         // Корректный файл.
         File correctFile = new File("jsonSample/city.json");
@@ -23,7 +24,7 @@ public class Main {
         City city = JsonUtil.parseJsonFile(correctFile, City.class);
         // Парсинг JSON с ошибкой
         City cityWithError = JsonUtil.parseJsonFile(errorFile, City.class);
-        LOGGER.info("Ending JSON parsing...");
+        LOGGER.info("Finishing JSON parsing...");
 
         // Корректный файл xml.
         File correctFileXml = new File("xmlResult/city.xml");
@@ -35,6 +36,8 @@ public class Main {
         XmlUtil.toXML(city, correctFileXml);
         // Конверитровать cityWithError в xml и сохранить в файле.
         XmlUtil.toXML(cityWithError, errorFileXml);
-        LOGGER.info("Ending XML converting...");
+        LOGGER.info("Finishing XML converting...");
+
+        LOGGER.info("App finished.");
     }
 }
