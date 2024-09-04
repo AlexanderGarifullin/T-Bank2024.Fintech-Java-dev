@@ -17,10 +17,19 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
-    testImplementation libs.junit
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
     // This dependency is used by the application.
-    implementation libs.guava
+    implementation 'com.google.guava:guava:31.1-jre'
+
+    // lombok
+    implementation 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -32,5 +41,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.example.App'
+    mainClass = 'fintech.Main'
 }
