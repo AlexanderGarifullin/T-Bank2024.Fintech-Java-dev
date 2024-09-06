@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class XmlUtilTest {
@@ -35,18 +36,23 @@ class XmlUtilTest {
         XmlUtil.toXML(city, tempFile);
 
         // Проверяем, что файл был создан и содержит данные
-        assertTrue(tempFile.exists());
-        assertTrue(tempFile.length() > 0);
+        assertThat(tempFile)
+                .exists()
+                .isNotEmpty();
 
         // Проверим содержимое файла
         XmlMapper xmlMapper = new XmlMapper();
         City deserializedCity = xmlMapper.readValue(tempFile, City.class);
 
-        assertNotNull(deserializedCity);
-        assertEquals(CITY_NAME, deserializedCity.getSlug());
-        assertNotNull(deserializedCity.getCoords());
-        assertEquals(LATITUDE, deserializedCity.getCoords().getLat());
-        assertEquals(LONGITUDE, deserializedCity.getCoords().getLon());
+        assertThat(deserializedCity)
+                .isNotNull()
+                .satisfies(c -> {
+                    assertThat(c.getSlug()).isEqualTo(CITY_NAME);
+                    assertThat(c.getCoords())
+                            .isNotNull()
+                            .extracting(Coords::getLat, Coords::getLon)
+                            .containsExactly(LATITUDE, LONGITUDE);
+                });
     }
 
     @Test
@@ -56,12 +62,12 @@ class XmlUtilTest {
 
         XmlUtil.toXML(null, tempFile);
 
-        assertTrue(tempFile.exists());
+        assertThat(tempFile).exists();
 
-        String content = Files.readString(tempFile.toPath());
+        String content = Files.readString(tempFile.toPath()).trim();
 
         // Проверяем, что содержимое файла соответствует <null/>
-        assertEquals("<null/>", content.trim());
+        assertThat(content).isEqualTo("<null/>");
     }
 
 
@@ -75,6 +81,6 @@ class XmlUtilTest {
         // Ожидаем, что будет вызвана ошибка, но метод должен корректно обработать исключение
         XmlUtil.toXML(city, tempFile);
 
-        assertFalse(tempFile.exists());
+        assertThat(tempFile).doesNotExist();
     }
 }

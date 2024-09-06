@@ -1,6 +1,7 @@
 package utils;
 
 import model.City;
+import model.Coords;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonUtilTest {
@@ -33,11 +35,15 @@ class JsonUtilTest {
         City city = JsonUtil.parseJsonFile(tempFile, City.class);
 
         // Проверяем, что объект был корректно создан
-        assertNotNull(city);
-        assertEquals(CITY_NAME, city.getSlug());
-        assertNotNull(city.getCoords());
-        assertEquals(LATITUDE, city.getCoords().getLat());
-        assertEquals(LONGITUDE, city.getCoords().getLon());
+        assertThat(city)
+                .isNotNull()
+                .satisfies(c -> {
+                    assertThat(c.getSlug()).isEqualTo(CITY_NAME);
+                    assertThat(c.getCoords())
+                            .isNotNull()
+                            .extracting(Coords::getLat, Coords::getLon)
+                            .containsExactly(LATITUDE, LONGITUDE);
+                });
     }
 
     @Test
@@ -51,7 +57,7 @@ class JsonUtilTest {
         }
 
         City city = JsonUtil.parseJsonFile(tempFile, City.class);
-        assertNull(city);
+        assertThat(city).isNull();
     }
 
     @Test
@@ -61,6 +67,6 @@ class JsonUtilTest {
 
         // Проверяем, что метод возвращает null
         City city = JsonUtil.parseJsonFile(nonExistentFile, City.class);
-        assertNull(city);
+        assertThat(city).isNull();
     }
 }
