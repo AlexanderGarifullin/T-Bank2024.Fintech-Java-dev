@@ -2,6 +2,7 @@ package utils;
 
 import model.City;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,10 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class JsonUtilTest {
 
     @Test
-    void testParseJsonFileSuccess() throws IOException {
+    void testParseJsonFileSuccess(@TempDir File tempDir) throws IOException {
         // Создаем временный JSON файл
-        File tempFile = File.createTempFile("good-city-test", ".json");
-        tempFile.deleteOnExit();  // Удаление файла после завершения теста
+        File tempFile = new File(tempDir, "good-city-test.json");
 
         String CITY_NAME = "new-york";
         double LATITUDE = 40.7128;
@@ -41,10 +41,9 @@ class JsonUtilTest {
     }
 
     @Test
-    void testParseJsonFileWithInvalidJson() throws IOException {
+    void testParseJsonFileWithInvalidJson(@TempDir File tempDir) throws IOException {
         // Создаем временный файл с некорректными JSON данными
-        File tempFile = File.createTempFile("city-error-test", ".json");
-        tempFile.deleteOnExit();  // Удаление файла после завершения теста
+        File tempFile = new File(tempDir, "city-error-test.json");
 
         // Пишем некорректные JSON данные в файл
         try (FileWriter writer = new FileWriter(tempFile)) {

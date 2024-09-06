@@ -15,7 +15,6 @@ public class XmlUtil {
         LOGGER.debug(LogMessages.PARSING_XML_FILE, file.getAbsolutePath());
         if (object == null) {
             LOGGER.warn(LogMessages.OBJECT_NULL, file.getAbsolutePath());
-            return;
         }
 
         try {

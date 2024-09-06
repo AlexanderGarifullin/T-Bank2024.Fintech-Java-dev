@@ -4,9 +4,12 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import model.City;
 import model.Coords;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,10 +24,9 @@ class XmlUtilTest {
     }
 
     @Test
-    void testToXMLSuccess() throws IOException {
+    void testToXMLSuccess(@TempDir File tempDir) throws IOException {
         // Создаем временный XML файл
-        File tempFile = File.createTempFile("city-test", ".xml");
-        tempFile.deleteOnExit();  // Удаление файла после завершения теста
+        File tempFile = new File(tempDir, "city-test.xml");
 
         // Создаем объект для конвертации
         City city = createTestCity();
@@ -48,15 +50,18 @@ class XmlUtilTest {
     }
 
     @Test
-    void testToXMLWithNullObject() throws IOException {
+    void testToXMLWithNullObject(@TempDir File tempDir) throws IOException {
 
-        File tempFile = File.createTempFile("city-null-test", ".xml");
-        tempFile.deleteOnExit();  // Удаление файла после завершения теста
+        File tempFile = new File(tempDir, "city-null-test.xml");
 
         XmlUtil.toXML(null, tempFile);
 
         assertTrue(tempFile.exists());
-        assertEquals(0, tempFile.length());
+
+        String content = Files.readString(tempFile.toPath());
+
+        // Проверяем, что содержимое файла соответствует <null/>
+        assertEquals("<null/>", content.trim());
     }
 
 
