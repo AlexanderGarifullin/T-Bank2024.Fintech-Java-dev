@@ -62,7 +62,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param c collection to be checked for containment
      * @return {@code true} if this list contains all the elements in the specified collection
-     * @throws ClassCastException if the elements in the specified collection cannot be compared with this list
      * @throws NullPointerException if the specified collection is {@code null}
      */
     @Override
@@ -90,8 +89,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param o element whose presence in this list is to be tested
      * @return {@code true} if this list contains the specified element
-     * @throws ClassCastException if the element cannot be compared with this list
-     * @throws NullPointerException if the specified element is {@code null}
      */
     @Override
     public boolean contains(Object o) {
@@ -137,8 +134,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param o element to be removed from this list, if present
      * @return {@code true} if this list contained the specified element
-     * @throws ClassCastException if the element cannot be compared with this list
-     * @throws NullPointerException if the specified element is {@code null}
      */
     @Override
     public boolean remove(Object o) {
@@ -156,7 +151,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param c collection containing elements to be removed from this list
      * @return {@code true} if this list was modified as a result of the call
-     * @throws ClassCastException if the class of an element of this list is incompatible with the specified collection
      * @throws NullPointerException if the specified collection is {@code null}
      */
     @Override
@@ -176,7 +170,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param c collection containing elements to be retained in this list
      * @return {@code true} if this list was modified as a result of the call
-     * @throws ClassCastException if the class of an element of this list is incompatible with the specified collection
      * @throws NullPointerException if the specified collection is {@code null}
      */
     @Override
