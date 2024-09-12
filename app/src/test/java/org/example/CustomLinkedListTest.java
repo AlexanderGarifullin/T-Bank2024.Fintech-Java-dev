@@ -3,10 +3,7 @@ package org.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -645,6 +642,29 @@ class CustomLinkedListTest {
         list.add(2);
 
         assertThatThrownBy(() -> list.containsAll(null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void containsAll_shouldThrowClassCastExceptionIfElementInCollectionCannotBeCompared() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        List<String> invalidCollection = List.of("string");
+
+        assertThatThrownBy(() -> list.containsAll(invalidCollection))
+                .isInstanceOf(ClassCastException.class);
+    }
+
+    @Test
+    void containsAll_shouldThrowNullPointerExceptionIfElementInCollectionIsNullAndListDoesNotPermitNulls() {
+        list.add(1);
+        list.add(2);
+
+        List<Integer> collectionWithNull = Arrays.asList(1, null);
+
+        assertThatThrownBy(() -> list.containsAll(collectionWithNull))
                 .isInstanceOf(NullPointerException.class);
     }
 

@@ -60,15 +60,25 @@ public class CustomLinkedList<E> implements Collection<E> {
     /**
      * Returns {@code true} if this list contains all the elements in the specified collection.
      *
+     * <p>More formally, returns {@code true} if and only if this list contains
+     * at least one element {@code e} such that {@code Objects.equals(o, e)} for each element {@code o}
+     * in the specified collection.
+     *
      * @param c collection to be checked for containment
      * @return {@code true} if this list contains all the elements in the specified collection
      * @throws NullPointerException if the specified collection is {@code null}
+     * @throws ClassCastException if any element in the specified collection cannot be compared with this list
+     * @throws NullPointerException if any element in the specified collection is {@code null} and this list does not permit {@code null} elements
      */
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object element : c) {
-            if (!contains(element)) {
-                return false;
+            try {
+                if (!contains(element)) {
+                    return false;
+                }
+            } catch (ClassCastException | NullPointerException e) {
+                throw e;
             }
         }
         return true;
