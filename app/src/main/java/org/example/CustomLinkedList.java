@@ -89,9 +89,26 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param o element whose presence in this list is to be tested
      * @return {@code true} if this list contains the specified element
+     * @throws NullPointerException if the specified element is {@code null} and the list contains non-nullable elements
+     * @throws ClassCastException if the element cannot be compared with this list
      */
     @Override
     public boolean contains(Object o) {
+        if (o == null) {
+            for (Node<E> current = head; current != null; current = current.next) {
+                if (current.item == null) {
+                    return true;
+                }
+            }
+            throw new NullPointerException(nullPointerObjectMsg());
+        }
+
+        if (isEmpty()) return false;
+
+        if (!getClassOfElements().isInstance(o)) {
+            throw new ClassCastException(classCastMsg(o));
+        }
+
         E element = (E) o;
 
         for (Node<E> current = head; current != null; current = current.next) {
@@ -478,6 +495,22 @@ public class CustomLinkedList<E> implements Collection<E> {
     private String nullPointerMsg() {
         return "Collection cannot be null";
     }
+
+    private String nullPointerObjectMsg() {
+        return "Element cannot be null";
+    }
+
+    private String classCastMsg(Object o) {
+        return "Incompatible type: " + o.getClass();
+    }
+
+    private Class<?> getClassOfElements() {
+        if (head != null) {
+            return head.item.getClass();
+        }
+        throw new IllegalStateException(emptyListMsg());
+    }
+
 
     /**
      * A node in the linked list.

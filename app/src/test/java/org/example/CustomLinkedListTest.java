@@ -571,6 +571,32 @@ class CustomLinkedListTest {
         assertThat(list.contains(1)).isFalse();
     }
 
+
+    @Test
+    void contains_shouldReturnTrueIfNullElementIsPresent() {
+        list.add(1);
+        list.add(null);
+        list.add(2);
+
+        assertThat(list.contains(null)).isTrue();
+    }
+
+    @Test
+    void contains_shouldThrowNullPointerExceptionIfNullElementAndListDoesNotContainsNulls() {
+        assertThatThrownBy(() -> list.contains(null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void contains_shouldThrowClassCastExceptionIfElementIsOfWrongType() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        assertThatThrownBy(() -> list.contains("abc"))
+                .isInstanceOf(ClassCastException.class);
+    }
+
     @Test
     void isEmpty_shouldReturnTrueIfListIsEmpty() {
         assertThat(list.isEmpty()).isTrue();
