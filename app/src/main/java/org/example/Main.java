@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.collection.CustomLinkedList;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -51,9 +53,16 @@ public class Main {
 
         CustomLinkedList<Integer> listFromStream = CustomLinkedList.collectFromStream(newStream);
         System.out.println("List created from stream:");
-        listFromStream.printAll(); // Output: 8 9 10
+        printCustomLinkedList(listFromStream); // Output: 8 9 10
     }
 
+    public static <T> void printCustomLinkedList(CustomLinkedList<T> input) {
+        var iterator = input.iterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
+        System.out.println();
+    }
 
     public static <T> void printCollection(Collection<T> input) {
         for (T item : input) {

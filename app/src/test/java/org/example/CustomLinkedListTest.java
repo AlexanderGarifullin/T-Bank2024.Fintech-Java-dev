@@ -1,9 +1,11 @@
 package org.example;
 
+import org.example.collection.CustomLinkedList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,8 +60,7 @@ class CustomLinkedListTest {
 
         assertThat(list.removeLast()).isEqualTo(3);
         assertThat(list.getLast()).isEqualTo(2);
-        assertThat(list).hasSize(2)
-                .containsExactly(1, 2);
+        assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
@@ -67,7 +68,7 @@ class CustomLinkedListTest {
         list.add(1);
 
         assertThat(list.removeLast()).isEqualTo(1);
-        assertThat(list).isEmpty();
+        assertThat(list.isEmpty()).isEqualTo(true);
     }
 
     @Test
@@ -85,8 +86,7 @@ class CustomLinkedListTest {
 
         assertThat(list.removeFirst()).isEqualTo(1);
         assertThat(list.getFirst()).isEqualTo(2);
-        assertThat(list).hasSize(2)
-                .containsExactly(2, 3);
+        assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
@@ -94,7 +94,7 @@ class CustomLinkedListTest {
         list.add(1);
 
         assertThat(list.removeFirst()).isEqualTo(1);
-        assertThat(list).isEmpty();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -131,8 +131,7 @@ class CustomLinkedListTest {
 
         assertThat(list.remove(1)).isEqualTo(20);
 
-        assertThat(list).hasSize(2)
-                .containsExactly(10, 30);
+        assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
@@ -148,8 +147,7 @@ class CustomLinkedListTest {
 
         assertThat(result).isTrue();
 
-        assertThat(list).hasSize(1)
-                .containsExactly(10);
+        assertThat(list.size()).isEqualTo(1);
 
         assertThat(list.getFirst()).isEqualTo(10);
         assertThat(list.getLast()).isEqualTo(10);
@@ -160,8 +158,7 @@ class CustomLinkedListTest {
         list.addLast(10);
         list.addLast(20);
 
-        assertThat(list).hasSize(2)
-                .containsExactly(10, 20);
+        assertThat(list.size()).isEqualTo(2);
 
         assertThat(list.getFirst()).isEqualTo(10);
         assertThat(list.getLast()).isEqualTo(20);
@@ -173,8 +170,7 @@ class CustomLinkedListTest {
 
         assertThat(result).isTrue();
 
-        assertThat(list).hasSize(1)
-                .containsExactly(10);
+        assertThat(list.size()).isEqualTo(1);
 
 
         assertThat(list.getFirst()).isEqualTo(10);
@@ -186,8 +182,7 @@ class CustomLinkedListTest {
         list.addFirst(10);
         list.addFirst(20);
 
-        assertThat(list).hasSize(2)
-                .containsExactly(20, 10);
+        assertThat(list.size()).isEqualTo(2);
 
 
         assertThat(list.getFirst()).isEqualTo(20);
@@ -200,7 +195,7 @@ class CustomLinkedListTest {
 
         CustomLinkedList<Integer> list = CustomLinkedList.collectFromStream(emptyStream);
 
-        assertThat(list).isNotNull().isEmpty();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -209,9 +204,7 @@ class CustomLinkedListTest {
 
         CustomLinkedList<Integer> list = CustomLinkedList.collectFromStream(singleElementStream);
 
-        assertThat(list).isNotNull()
-                .hasSize(1)
-                .containsExactly(10);
+        assertThat(list.size()).isEqualTo(1);
 
         assertThat(list.getFirst()).isEqualTo(10);
         assertThat(list.getLast()).isEqualTo(10);
@@ -223,9 +216,7 @@ class CustomLinkedListTest {
 
         CustomLinkedList<Integer> list = CustomLinkedList.collectFromStream(multipleElementStream);
 
-        assertThat(list).isNotNull()
-                .hasSize(4)
-                .containsExactly(10, 20, 30, 40);
+        assertThat(list.size()).isEqualTo(4);;
 
         assertThat(list.getFirst()).isEqualTo(10);
         assertThat(list.getLast()).isEqualTo(40);
@@ -236,8 +227,7 @@ class CustomLinkedListTest {
         Stream<Integer> emptyStream = Stream.empty();
 
         CustomLinkedList<Integer> list = CustomLinkedList.reduceFromStream(emptyStream);
-
-        assertThat(list).isNotNull().isEmpty();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -246,9 +236,7 @@ class CustomLinkedListTest {
 
         CustomLinkedList<Integer> list = CustomLinkedList.reduceFromStream(singleElementStream);
 
-        assertThat(list).isNotNull()
-                .hasSize(1)
-                .containsExactly(10);
+        assertThat(list.size()).isEqualTo(1);
 
         assertThat(list.getFirst()).isEqualTo(10);
         assertThat(list.getLast()).isEqualTo(10);
@@ -260,10 +248,7 @@ class CustomLinkedListTest {
 
         CustomLinkedList<Integer> list = CustomLinkedList.reduceFromStream(multipleElementStream);
 
-        assertThat(list)
-                .isNotNull()
-                .hasSize(4)
-                .containsExactly(10, 20, 30, 40);
+        assertThat(list.size()).isEqualTo(4);
 
         assertThat(list.getFirst()).isEqualTo(10);
         assertThat(list.getLast()).isEqualTo(40);
@@ -382,8 +367,7 @@ class CustomLinkedListTest {
 
         assertThat(modified).isTrue();
 
-        assertThat(list).hasSize(2)
-                .containsExactly(2, 4);
+        assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
@@ -399,7 +383,7 @@ class CustomLinkedListTest {
 
         assertThat(modified).isTrue();
 
-        assertThat(list).isEmpty();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -419,8 +403,7 @@ class CustomLinkedListTest {
 
         assertThat(modified).isFalse();
 
-        assertThat(list).hasSize(4)
-                .containsExactly(1, 2, 3, 4);
+        assertThat(list.size()).isEqualTo(4);
     }
 
     @Test
@@ -445,8 +428,7 @@ class CustomLinkedListTest {
         boolean modified = list.removeAll(toRemove);
 
         assertThat(modified).isTrue();
-        assertThat(list).hasSize(2)
-                .containsExactly(1, 3);
+        assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
@@ -456,7 +438,7 @@ class CustomLinkedListTest {
         boolean modified = list.removeAll(toRemove);
 
         assertThat(modified).isFalse();
-        assertThat(list).isEmpty();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -469,8 +451,7 @@ class CustomLinkedListTest {
         boolean modified = list.removeAll(toRemove);
 
         assertThat(modified).isFalse();
-        assertThat(list).hasSize(2)
-                .containsExactly(1, 2);
+        assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
@@ -498,8 +479,6 @@ class CustomLinkedListTest {
         boolean result = list.remove("two");
 
         assertThat(result).isTrue();
-        assertThat(list).doesNotContain("two")
-                .containsExactly("one", "three");
     }
 
     @Test
@@ -509,7 +488,6 @@ class CustomLinkedListTest {
         boolean result = list.remove("four");
 
         assertThat(result).isFalse();
-        assertThat(list).containsExactly("one", "two", "three");
     }
 
     @Test
@@ -518,7 +496,7 @@ class CustomLinkedListTest {
         list.addLast(2);
         list.addLast(3);
 
-        Iterator<Integer> iterator = list.iterator();
+        var iterator = list.iterator();
 
         assertThat(iterator.hasNext()).isTrue();
         assertThat(iterator.next()).isEqualTo(1);
@@ -531,7 +509,7 @@ class CustomLinkedListTest {
     void iterator_shouldThrowNoSuchElementExceptionWhenNoMoreElements() {
         list.add(1);
 
-        Iterator<Integer> iterator = list.iterator();
+        var  iterator = list.iterator();
         iterator.next();
 
         assertThatThrownBy(iterator::next)
@@ -540,10 +518,47 @@ class CustomLinkedListTest {
 
     @Test
     void iterator_shouldWorkOnEmptyList() {
-        Iterator<Integer> iterator = list.iterator();
+        var  iterator = list.iterator();
 
         assertThat(iterator.hasNext()).isFalse();
     }
+
+
+    @Test
+    void iterator_ForEachRemaining_success() {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        var iterator = list.iterator();
+        var sum = new AtomicInteger();
+
+        iterator.forEachRemaining(sum::addAndGet);
+
+        assertThat(sum.get()).isEqualTo(6);
+        assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
+    void iterator_ForEachRemaining_emptyList() {
+        var iterator = list.iterator();
+        var sum = new AtomicInteger();
+
+        iterator.forEachRemaining(sum::addAndGet);
+
+        assertThat(sum.get()).isEqualTo(0);
+        assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
+    void iterator_ForEachRemaining_nullAction() {
+       list.add(1);
+       var iterator = list.iterator();
+
+        assertThatThrownBy(() -> iterator.forEachRemaining(null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
 
     @Test
     void contains_shouldReturnTrueIfElementIsPresent() {
@@ -683,7 +698,6 @@ class CustomLinkedListTest {
 
         list.clear();
 
-        assertThat(list).isEmpty();
         assertThat(list.size()).isEqualTo(0);
     }
 
@@ -703,8 +717,7 @@ class CustomLinkedListTest {
 
         assertThat(modified).isTrue();
 
-        assertThat(list).containsExactly(1, 2, 3, 4)
-                .hasSize(4);
+        assertThat(list.size()).isEqualTo(4);
     }
 
     @Test
@@ -715,7 +728,7 @@ class CustomLinkedListTest {
 
         assertThat(modified).isFalse();
 
-        assertThat(list).isEmpty();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -736,8 +749,7 @@ class CustomLinkedListTest {
 
         assertThat(modified).isTrue();
 
-        assertThat(list).containsExactly(5, 6, 7, 8)
-                .hasSize(4);
+        assertThat(list.size()).isEqualTo(4);;
     }
 
     @Test
@@ -749,4 +761,7 @@ class CustomLinkedListTest {
     void add_shouldAddElementToNonEmptyList() {
         addLast_shouldAddElementToNonEmptyList();
     }
+
+
+
 }

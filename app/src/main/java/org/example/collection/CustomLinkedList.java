@@ -1,8 +1,9 @@
-package org.example;
+package org.example.collection;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -11,10 +12,10 @@ import java.util.stream.Stream;
  *
  * @param <E> the type of elements in this list
  */
-public class CustomLinkedList<E> implements Collection<E> {
+public class CustomLinkedList<E> {
 
-    private Node<E> head;
-    private Node<E> tail;
+    private Node head;
+    private Node tail;
     private int size = 0;
 
     /**
@@ -23,7 +24,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @param e the element to be appended
      * @return {@code true} (as specified by {@link Collection#add})
      */
-    @Override
     public boolean add(E e) {
         return addLast(e);
     }
@@ -35,7 +35,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @return {@code true} if the list was modified as a result of the call
      * @throws NullPointerException if the specified collection is {@code null}
      */
-    @Override
     public boolean addAll(Collection<? extends E> c) {
         if (c == null) {
             throw new NullPointerException(nullPointerMsg());
@@ -50,7 +49,6 @@ public class CustomLinkedList<E> implements Collection<E> {
     /**
      * Removes all the elements from this list.
      */
-    @Override
     public void clear() {
         head = null;
         tail = null;
@@ -70,7 +68,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @throws ClassCastException if any element in the specified collection cannot be compared with this list
      * @throws NullPointerException if any element in the specified collection is {@code null} and this list does not permit {@code null} elements
      */
-    @Override
     public boolean containsAll(Collection<?> c) {
         for (Object element : c) {
             try {
@@ -89,7 +86,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @return {@code true} if this list contains no elements
      */
-    @Override
     public boolean isEmpty() {
         return size == 0;
     }
@@ -102,10 +98,10 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @throws NullPointerException if the specified element is {@code null} and the list contains non-nullable elements
      * @throws ClassCastException if the element cannot be compared with this list
      */
-    @Override
+
     public boolean contains(Object o) {
         if (o == null) {
-            for (Node<E> current = head; current != null; current = current.next) {
+            for (Node current = head; current != null; current = current.next) {
                 if (current.item == null) {
                     return true;
                 }
@@ -121,7 +117,7 @@ public class CustomLinkedList<E> implements Collection<E> {
 
         E element = (E) o;
 
-        for (Node<E> current = head; current != null; current = current.next) {
+        for (Node current = head; current != null; current = current.next) {
             if (current.item.equals(element)) {
                 return true;
             }
@@ -134,26 +130,36 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @return an iterator over the elements in this list
      */
-    @Override
-    public Iterator<E> iterator() {
-        return new Iterator<E>() {
-            private Node<E> current = head;
 
-            @Override
-            public boolean hasNext() {
-                return current != null;
-            }
+    public CustomIterator<E> iterator() {
+        return new CustomLinkedListIterator();
+    }
 
-            @Override
-            public E next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                E item = current.item;
-                current = current.next;
-                return item;
+    private class CustomLinkedListIterator  implements CustomIterator<E> {
+        private Node current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-        };
+            E item = current.item;
+            current = current.next;
+            return item;
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super E> action) {
+            Objects.requireNonNull(action);
+            while (hasNext()) {
+                action.accept(next());
+            }
+        }
     }
 
     /**
@@ -162,9 +168,8 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @param o element to be removed from this list, if present
      * @return {@code true} if this list contained the specified element
      */
-    @Override
     public boolean remove(Object o) {
-        for (Node<E> current = head; current != null; current = current.next) {
+        for (Node current = head; current != null; current = current.next) {
             if (current.item.equals(o)) {
                 removeNode(current);
                 return true;
@@ -180,7 +185,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @return {@code true} if this list was modified as a result of the call
      * @throws NullPointerException if the specified collection is {@code null}
      */
-    @Override
     public boolean removeAll(Collection<?> c) {
         boolean modified = false;
         for (Object o : c) {
@@ -199,11 +203,10 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @return {@code true} if this list was modified as a result of the call
      * @throws NullPointerException if the specified collection is {@code null}
      */
-    @Override
     public boolean retainAll(Collection<?> c) {
         boolean modified = false;
-        for (Node<E> current = head; current != null; ) {
-            Node<E> next = current.next;
+        for (Node current = head; current != null; ) {
+            Node next = current.next;
             if (!c.contains(current.item)) {
                 removeNode(current);
                 modified = true;
@@ -218,7 +221,6 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @return the number of elements in this list
      */
-    @Override
     public int size() {
         return size;
     }
@@ -228,11 +230,10 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @return an array containing all the elements in this list
      */
-    @Override
     public Object[] toArray() {
         Object[] array = new Object[size];
         int i = 0;
-        for (Node<E> current = head; current != null; current = current.next) {
+        for (Node current = head; current != null; current = current.next) {
             array[i++] = current.item;
         }
         return array;
@@ -248,14 +249,13 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @throws ArrayStoreException if the runtime type of the specified array is not a supertype of the runtime type of every element in this list
      * @throws NullPointerException if the specified array is {@code null}
      */
-    @Override
     public <T> T[] toArray(T[] a) {
         if (a.length < size) {
             //noinspection unchecked
             a = (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
         }
         int i = 0;
-        for (Node<E> current = head; current != null; current = current.next) {
+        for (Node current = head; current != null; current = current.next) {
             a[i++] = (T) current.item;
         }
         if (a.length > size) {
@@ -302,7 +302,7 @@ public class CustomLinkedList<E> implements Collection<E> {
      * Prints all elements of the list to the standard output.
      */
     public void printAll() {
-        for (Node<E> current = head; current != null; current = current.next) {
+        for (Node current = head; current != null; current = current.next) {
             System.out.print(current.item + " ");
         }
         System.out.println();
@@ -315,7 +315,7 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @return {@code true} (as specified by {@link Collection#add})
      */
     public boolean addFirst(E element) {
-        Node<E> newNode = new Node<>(element);
+        Node newNode = new Node(element);
         if (head != null) {
             newNode.next = head;
             head.prev = newNode;
@@ -335,7 +335,7 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @return {@code true} (as specified by {@link Collection#add})
      */
     public boolean addLast(E element) {
-        Node<E> newNode = new Node<>(element);
+        Node newNode = new Node(element);
         if (tail != null) {
             tail.next = newNode;
             newNode.prev = tail;
@@ -357,7 +357,7 @@ public class CustomLinkedList<E> implements Collection<E> {
      */
     public E remove(int index) {
         checkIndex(index);
-        Node<E> current = nodeAt(index);
+        Node current = nodeAt(index);
         final E item = current.item;
 
         removeNode(current);
@@ -374,7 +374,7 @@ public class CustomLinkedList<E> implements Collection<E> {
      */
     public E get(int index) {
         checkIndex(index);
-        final Node<E> current = nodeAt(index);
+        final Node current = nodeAt(index);
         return current.item;
     }
 
@@ -451,7 +451,7 @@ public class CustomLinkedList<E> implements Collection<E> {
      *
      * @param node the node to be removed
      */
-    private void removeNode(Node<E> node) {
+    private void removeNode(Node node) {
         if (node.prev != null) {
             node.prev.next = node.next;
         } else {
@@ -474,8 +474,8 @@ public class CustomLinkedList<E> implements Collection<E> {
      * @return the node at the specified position in this list
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
      */
-    private Node<E> nodeAt(int index) {
-        Node<E> current = head;
+    private Node nodeAt(int index) {
+        Node current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
@@ -524,13 +524,11 @@ public class CustomLinkedList<E> implements Collection<E> {
 
     /**
      * A node in the linked list.
-     *
-     * @param <E> the type of the element
      */
-    private static class Node<E> {
+    private class Node {
         E item;
-        Node<E> next;
-        Node<E> prev;
+        Node next;
+        Node prev;
 
         Node(E element) {
             this.item = element;
